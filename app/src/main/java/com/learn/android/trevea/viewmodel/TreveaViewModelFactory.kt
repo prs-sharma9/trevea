@@ -1,0 +1,17 @@
+package com.learn.android.trevea.viewmodel
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.learn.android.trevea.network.repository.OtdbRepository
+
+class TreveaViewModelFactory(
+    private val repository: OtdbRepository
+): ViewModelProvider.Factory {
+    override fun <T: ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(TreveaViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return TreveaViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}

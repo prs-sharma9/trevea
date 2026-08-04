@@ -7,14 +7,12 @@ plugins {
 android {
     namespace = "com.learn.android.trevea"
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version = release(37)
     }
 
     defaultConfig {
         applicationId = "com.learn.android.trevea"
-        minSdk = 36
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -58,17 +56,28 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
 //    Navigation - START
-
     val nav_version = "2.9.8"
-
 // Jetpack Compose integration
     implementation("androidx.navigation:navigation-compose:${nav_version}")
-
 // Testing Navigation
     androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
-
 // JSON serialization library, works with the Kotlin serialization plugin
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-
 //    Navigation - END
+
+//    Retrofit - START
+// Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+// Retrofit with Scalar Converter
+//    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+//    Convertor - https://github.com/square/moshi/
+//    implementation("com.squareup.moshi:moshi-kotlin:2.0.0-alpha.1")
+//    OkHttp Logging interceptor - https://github.com/lysine-dev/okhttp/blob/main/okhttp-logging-interceptor/README.md
+    implementation("com.squareup.okhttp3:logging-interceptor:5.4.0")
+//    Retrofit - END
+
+//     ViewModel - START
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
+//     ViewModel - END
 }
