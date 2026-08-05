@@ -2,9 +2,11 @@ package com.learn.android.trevea.components
 
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -27,16 +29,13 @@ fun TopAppBar(
         title = {
             Text(
                 text = stringResource(R.string.app_name).capitalize(locale = Locale.current),
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.Monospace,
-                    fontSize = 25.sp,
-                    color = colorResource(R.color.txt_app_bar)
-                )
+
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = colorResource(R.color.primary_app_bar)
+            containerColor = MaterialTheme.colorScheme.primaryContainer
         )
     )
 }

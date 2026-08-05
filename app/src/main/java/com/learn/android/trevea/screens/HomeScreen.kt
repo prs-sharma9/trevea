@@ -1,8 +1,9 @@
 package com.learn.android.trevea.screens
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,8 +14,8 @@ import com.learn.android.trevea.components.CateogryList
 import com.learn.android.trevea.components.TopAppBar
 import com.learn.android.trevea.network.repository.OtdbRepository
 import com.learn.android.trevea.network.retrofit.RetrofitInstance
-import com.learn.android.trevea.viewmodel.TreveaViewModel
-import com.learn.android.trevea.viewmodel.TreveaViewModelFactory
+import com.learn.android.trevea.viewmodel.trevea.TreveaViewModel
+import com.learn.android.trevea.viewmodel.trevea.TreveaViewModelFactory
 
 @Preview
 @Composable
@@ -30,8 +31,10 @@ fun HomeScreen(
     Scaffold(
         topBar = { TopAppBar() }
     ) { innerPadding ->
-        Column(
-            modifier = Modifier.padding(innerPadding)
+        Surface (
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
         ) {
             when(uiState.value) {
                 is TreveaViewModel.CategoryUiState.Error -> {
@@ -43,7 +46,7 @@ fun HomeScreen(
                 is TreveaViewModel.CategoryUiState.Success -> {
                     CateogryList(
                         categories = (uiState.value as TreveaViewModel.CategoryUiState.Success)
-                            .categories
+                            .categories.sortedBy { it.categoryId }
                     )
                 }
             }

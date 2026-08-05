@@ -1,4 +1,4 @@
-package com.learn.android.trevea.viewmodel
+package com.learn.android.trevea.viewmodel.trevea
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
