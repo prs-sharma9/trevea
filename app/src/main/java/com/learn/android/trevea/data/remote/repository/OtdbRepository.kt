@@ -1,7 +1,7 @@
-package com.learn.android.trevea.network.repository
+package com.learn.android.trevea.data.remote.repository
 
-import com.learn.android.trevea.model.otdb.CategoryResponse
-import com.learn.android.trevea.network.service.OtdbApiService
+import com.learn.android.trevea.data.remote.model.otdb.CategoryResponse
+import com.learn.android.trevea.data.remote.service.OtdbApiService
 
 class OtdbRepository(private val api: OtdbApiService) {
 

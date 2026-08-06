@@ -1,6 +1,6 @@
-package com.learn.android.trevea.network.retrofit
+package com.learn.android.trevea.data.remote.retrofit
 
-import com.learn.android.trevea.network.service.OtdbApiService
+import com.learn.android.trevea.data.remote.service.OtdbApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     kotlin("plugin.serialization") version "2.0.21"
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -82,4 +83,12 @@ dependencies {
 //     ViewModel - START
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
 //     ViewModel - END
+
+
+//    Room - START
+    val roomVersion = "2.8.4"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")     // coroutine support
+    ksp("androidx.room:room-compiler:$roomVersion")
+//    Room - END
 }

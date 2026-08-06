@@ -2,8 +2,8 @@ package com.learn.android.trevea.viewmodel.trevea
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.learn.android.trevea.model.otdb.Category
-import com.learn.android.trevea.network.repository.OtdbRepository
+import com.learn.android.trevea.data.remote.model.otdb.Category
+import com.learn.android.trevea.data.remote.repository.OtdbRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

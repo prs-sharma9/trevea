@@ -1,6 +1,6 @@
-package com.learn.android.trevea.network.service
+package com.learn.android.trevea.data.remote.service
 
-import com.learn.android.trevea.model.otdb.CategoryResponse
+import com.learn.android.trevea.data.remote.model.otdb.CategoryResponse
 import retrofit2.http.GET
 
 interface OtdbApiService {

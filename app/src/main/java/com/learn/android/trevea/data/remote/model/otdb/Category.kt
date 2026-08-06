@@ -1,4 +1,4 @@
-package com.learn.android.trevea.model.otdb
+package com.learn.android.trevea.data.remote.model.otdb
 
 import com.google.gson.annotations.SerializedName
 

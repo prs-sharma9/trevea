@@ -12,8 +12,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.learn.android.trevea.components.CateogryList
 import com.learn.android.trevea.components.TopAppBar
-import com.learn.android.trevea.network.repository.OtdbRepository
-import com.learn.android.trevea.network.retrofit.RetrofitInstance
+import com.learn.android.trevea.data.remote.repository.OtdbRepository
+import com.learn.android.trevea.data.remote.retrofit.RetrofitInstance
 import com.learn.android.trevea.viewmodel.trevea.TreveaViewModel
 import com.learn.android.trevea.viewmodel.trevea.TreveaViewModelFactory
 
