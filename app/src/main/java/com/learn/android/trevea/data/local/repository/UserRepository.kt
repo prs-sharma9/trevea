@@ -1,18 +1,18 @@
 package com.learn.android.trevea.data.local.repository
 
+import com.learn.android.trevea.data.model.Category
 import com.learn.android.trevea.data.local.dao.UserCategoryDao
-import com.learn.android.trevea.data.local.model.user.UserCategory
 import kotlinx.coroutines.flow.Flow
 
 class UserRepository(private val userCategoryDao: UserCategoryDao) {
 
-    val userCategoryList: Flow<List<UserCategory>> = userCategoryDao.getAllCategories()
+    val userCategoryList: Flow<List<Category>> = userCategoryDao.getAllCategories()
 
-    suspend fun insertUserCategory(category: UserCategory) {
+    suspend fun insertUserCategory(category: Category) {
         userCategoryDao.insertCategory(category)
     }
 
-    suspend fun deleteUserCategory(category: UserCategory) {
+    suspend fun deleteUserCategory(category: Category) {
         userCategoryDao.deleteCategory(category)
     }
 

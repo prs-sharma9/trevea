@@ -58,37 +58,27 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-//    Navigation - START
-    val nav_version = "2.9.8"
-// Jetpack Compose integration
-    implementation("androidx.navigation:navigation-compose:${nav_version}")
-// Testing Navigation
-    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
-// JSON serialization library, works with the Kotlin serialization plugin
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-//    Navigation - END
+//    Navigation
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.jetbrains.serialization.json)
+    androidTestImplementation(libs.android.navigation.test)
 
-//    Retrofit - START
-// Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-// Retrofit with Scalar Converter
-//    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-//    Convertor - https://github.com/square/moshi/
-//    implementation("com.squareup.moshi:moshi-kotlin:2.0.0-alpha.1")
-//    OkHttp Logging interceptor - https://github.com/lysine-dev/okhttp/blob/main/okhttp-logging-interceptor/README.md
-    implementation("com.squareup.okhttp3:logging-interceptor:5.4.0")
-//    Retrofit - END
+//    Retrofit
+    implementation(libs.squareup.retirfit2)
+    implementation(libs.squareup.retrofit2.gson)
+    implementation(libs.squareup.okhttp3)
 
-//     ViewModel - START
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
-//     ViewModel - END
+//    Viewmodel
+    implementation(libs.androidx.lifecycle.view.model)
 
+//    Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.android.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
-//    Room - START
-    val roomVersion = "2.8.4"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")     // coroutine support
-    ksp("androidx.room:room-compiler:$roomVersion")
-//    Room - END
+//    Icons
+    implementation("androidx.compose.material:material-icons-extended")
+
+//    Datastore
+    implementation(libs.androidx.datastore.preferences)
 }

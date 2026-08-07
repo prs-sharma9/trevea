@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">trevea</string>
+    <string name="reg_user_screen_title">Profile</string>
+    <string name="back_icon_description">Go back</string>
+    <string name="account_icon_description">Go to profile</string>
+    <string name="profile_picture_description">Profile picture</string>
+    <string name="choose_profile_picture">Choose Photo</string>
+    <string name="username_label">User Name</string>
+
+    <!--  User Preference Keys  -->
+    <string name="user_name">user_name</string>
+    <string name="photo_url">photo_url</string>
+    <string name="is_user_registered">is_user_registered</string>
 </resources>

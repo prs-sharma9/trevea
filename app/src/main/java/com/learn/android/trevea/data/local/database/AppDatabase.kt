@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.learn.android.trevea.data.model.Category
 import com.learn.android.trevea.data.local.dao.UserCategoryDao
-import com.learn.android.trevea.data.local.model.user.UserCategory
 
-@Database(entities = [UserCategory::class], version = 1, exportSchema = false)
+@Database(entities = [Category::class], version = 1, exportSchema = false)
 abstract class TreveaDatabase : RoomDatabase() {
 
     abstract fun userCategoryDao(): UserCategoryDao
@@ -20,13 +20,11 @@ abstract class TreveaDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): TreveaDatabase {
             return DB_INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context = context.applicationContext,
-                    name = DATABASE_NAME,
-                    klass = TreveaDatabase::class.java
-                ).build()
-                DB_INSTANCE = instance
-                instance
+                    DB_INSTANCE ?: Room.databaseBuilder(
+                        context = context.applicationContext,
+                        name = DATABASE_NAME,
+                        klass = TreveaDatabase::class.java
+                    ).build().also { DB_INSTANCE = it }
             }
         }
     }

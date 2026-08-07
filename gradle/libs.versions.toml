@@ -10,9 +10,22 @@ kotlin = "2.2.10"
 composeBom = "2026.02.01"
 uiTextGoogleFonts = "1.11.4"
 material3 = "1.4.0"
+#Navigation
+navigationVersion = "2.9.8"
+jsonSerializer = "1.7.3"
+#Retrofit
+retrofit = "2.9.0"
+#okhttp
+okhttp = "5.4.0"
+#ViewModel
+viewModel = "2.10.0"
 
-#Room - DB
+#RoomKSP - DB
 ksp = "2.3.4"
+room = "2.8.4"
+
+#Datastore
+datastore = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -31,6 +44,26 @@ androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-te
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+
+#Navigation
+androidx-navigation-compose = {group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationVersion"}
+jetbrains-serialization-json = {group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "jsonSerializer"}
+android-navigation-test = {group = "androidx.navigation", name = "navigation-testing", version.ref = "navigationVersion"}
+
+#Retrofit
+squareup-retirfit2 = {group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit"}
+squareup-retrofit2-gson = {group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit"}
+#Okhttp
+squareup-okhttp3 = {group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp"}
+#ViewModel
+androidx-lifecycle-view-model = {group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "viewModel"}
+
+#Room
+androidx-room-runtime = {group = "androidx.room", name = "room-runtime", version.ref = "room"}
+android-room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room"}
+androidx-room-compiler = {group = "androidx.room", name = "room-compiler", version.ref = "room"}
+androidx-datastore-preferences = {group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore"}
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

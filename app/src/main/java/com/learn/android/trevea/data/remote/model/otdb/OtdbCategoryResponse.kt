@@ -1,6 +1,7 @@
 package com.learn.android.trevea.data.remote.model.otdb
 
 import com.google.gson.annotations.SerializedName
+import com.learn.android.trevea.data.model.Category
 
 //{
 //  "trivia_categories":
@@ -17,15 +18,7 @@ import com.google.gson.annotations.SerializedName
 //}
 
 data class CategoryResponse(
-//    val responseCode: Int,
 
     @SerializedName("trivia_categories")
     val triviaCategories: List<Category>
-)
-
-data class Category (
-    @SerializedName("id")
-    val categoryId: Int,
-    @SerializedName("name")
-    val categoryName: String
 )
