@@ -1,5 +1,6 @@
 package com.learn.android.trevea.ui.screens
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -24,10 +25,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -53,7 +50,7 @@ import com.learn.android.trevea.data.local.preferences.userDataStore
 import com.learn.android.trevea.data.local.repository.UserPreferenceRepository
 import com.learn.android.trevea.data.remote.repository.OtdbRepository
 import com.learn.android.trevea.data.remote.retrofit.RetrofitInstance
-import com.learn.android.trevea.ui.components.TopBarActionIcon
+import com.learn.android.trevea.ui.components.IconActionButton
 import com.learn.android.trevea.viewmodel.trevea.TreveaViewModel
 import com.learn.android.trevea.viewmodel.trevea.TreveaViewModelFactory
 
@@ -62,6 +59,9 @@ fun RegisterScreen(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
+
+    val tag = "REGISTRATION_SCREEN"
+
     val context = LocalContext.current
 
     // Create ViewModel instance
@@ -87,13 +87,14 @@ fun RegisterScreen(
     val focusManager = LocalFocusManager.current
     val keyboardManager = LocalSoftwareKeyboardController.current
 
-//    var userName by remember { mutableStateOf("") }
 
     val regUiStateValues = uViewModel.uiState.collectAsStateWithLifecycle().value
     val allCategoryList = tViewModel.categoryUiState.collectAsStateWithLifecycle().value
 
     val userName = regUiStateValues.name
     val userCategoryList = regUiStateValues.userCategories
+
+    Log.d(tag, "User Category Count: ${userCategoryList.size}")
 
     Scaffold(
         topBar = {
@@ -103,7 +104,7 @@ fun RegisterScreen(
                 navController = navController,
                 enableActions = true,
                 actions = {
-                    TopBarActionIcon (
+                    IconActionButton (
                         icon = Icons.Default.Save
                     ) {
                         uViewModel.saveUserProfile()

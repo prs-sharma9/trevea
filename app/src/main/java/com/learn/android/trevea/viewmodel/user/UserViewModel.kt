@@ -47,7 +47,7 @@ class UserViewModel(
                     isRegistered = isRegistered,
                     userCategories = userCategories
                 )
-            }. collect {
+            }.collect {
                 state -> _uiState.update { state }
             }
         }

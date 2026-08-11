@@ -53,7 +53,7 @@ fun CategoryList(
         ) {
             Log.d("MyTag", "1. CategoryList: $allCategories")
             allCategories.forEach {
-                var isSelected by remember { mutableStateOf(userCategories.contains(it)) }
+                var isSelected = userCategories.contains(it)
                 CategoryListItem(
                     category = it,
                     enableSelection = selectionMode,
