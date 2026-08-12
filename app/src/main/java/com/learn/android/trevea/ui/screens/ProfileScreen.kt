@@ -1,6 +1,5 @@
 package com.learn.android.trevea.ui.screens
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -40,10 +39,9 @@ import androidx.navigation.NavController
 import com.learn.android.trevea.R
 import com.learn.android.trevea.data.local.database.TreveaDatabase
 import com.learn.android.trevea.data.local.repository.UserRepository
-import com.learn.android.trevea.ui.components.CategoryList
 import com.learn.android.trevea.ui.components.TopAppBar
-import com.learn.android.trevea.viewmodel.user.UserViewModel
-import com.learn.android.trevea.viewmodel.user.UserViewModelFactory
+import com.learn.android.trevea.viewmodel.profile.ProfileViewModel
+import com.learn.android.trevea.viewmodel.profile.ProfileViewModelFactory
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.learn.android.trevea.data.local.preferences.userDataStore
@@ -51,11 +49,12 @@ import com.learn.android.trevea.data.local.repository.UserPreferenceRepository
 import com.learn.android.trevea.data.remote.repository.OtdbRepository
 import com.learn.android.trevea.data.remote.retrofit.RetrofitInstance
 import com.learn.android.trevea.ui.components.IconActionButton
-import com.learn.android.trevea.viewmodel.trevea.TreveaViewModel
-import com.learn.android.trevea.viewmodel.trevea.TreveaViewModelFactory
+import com.learn.android.trevea.ui.components.UserStats
+import com.learn.android.trevea.viewmodel.quiz.QuizViewModel
+import com.learn.android.trevea.viewmodel.quiz.QuizViewModelFactory
 
 @Composable
-fun RegisterScreen(
+fun ProfileScreen(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
@@ -65,8 +64,8 @@ fun RegisterScreen(
     val context = LocalContext.current
 
     // Create ViewModel instance
-    val uViewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(
+    val uViewModel: ProfileViewModel = viewModel(
+        factory = ProfileViewModelFactory(
             repository = UserRepository(
                 userCategoryDao = TreveaDatabase.getInstance(
                     context = context
@@ -76,8 +75,8 @@ fun RegisterScreen(
         )
     )
 
-    val tViewModel: TreveaViewModel = viewModel(
-        factory = TreveaViewModelFactory(
+    val tViewModel: QuizViewModel = viewModel(
+        factory = QuizViewModelFactory(
             repository = OtdbRepository(
                 api = RetrofitInstance.otdbApi
             )
@@ -88,24 +87,25 @@ fun RegisterScreen(
     val keyboardManager = LocalSoftwareKeyboardController.current
 
 
-    val regUiStateValues = uViewModel.uiState.collectAsStateWithLifecycle().value
-    val allCategoryList = tViewModel.categoryUiState.collectAsStateWithLifecycle().value
+    val profileUiStateValues = uViewModel.uiState.collectAsStateWithLifecycle().value
+    val allCategoryList = tViewModel.quizUiState.collectAsStateWithLifecycle().value
 
-    val userName = regUiStateValues.name
-    val userCategoryList = regUiStateValues.userCategories
+    val userName = profileUiStateValues.name
+//    val userCategoryList = regUiStateValues.userCategories
 
-    Log.d(tag, "User Category Count: ${userCategoryList.size}")
+//    Log.d(tag, "User Category Count: ${userCategoryList.size}")
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = stringResource(R.string.reg_user_screen_title),
-                enableNavigationIcon = true,
+                enableBackNavigation = true,
                 navController = navController,
                 enableActions = true,
                 actions = {
                     IconActionButton (
-                        icon = Icons.Default.Save
+                        icon = Icons.Default.Save,
+                        description = stringResource(R.string.save_btn_descp)
                     ) {
                         uViewModel.saveUserProfile()
                         Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
@@ -151,7 +151,7 @@ fun RegisterScreen(
                 ) {
                     Text(
                         text = stringResource(R.string.choose_profile_picture),
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.secondary
                     )
                 }
@@ -164,7 +164,7 @@ fun RegisterScreen(
                     .fillMaxWidth(0.8f),
                 value = userName,
                 onValueChange = { uViewModel.updateUserName(it)},
-                textStyle = MaterialTheme.typography.labelLarge,
+                textStyle = MaterialTheme.typography.labelMedium,
                 label = {
                     Text(text = stringResource(R.string.username_label))
                 },
@@ -182,27 +182,33 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = "Select Categories",
+                text = stringResource(R.string.user_stats),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth(),
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.labelMedium
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            if ( allCategoryList is TreveaViewModel.CategoryUiState.Success) {
-                CategoryList (
-                    allCategories = allCategoryList.categories,
-                    userCategories = userCategoryList,
-                    selectionMode = true,
-                    onSelectionChanged = { category ->
-                        uViewModel.toggleUserCategory(category)
-                    }
-                )
-            } else {
-                Text(text="loading")
-            }
+//            if ( allCategoryList is QuizViewModel.QuizUiState.CategoryList) {
+//                CategoryList (
+//                    allCategories = allCategoryList.categories,
+//                    userCategories = userCategoryList,
+//                    selectionMode = true,
+//                    onSelectionChanged = { category ->
+//                        uViewModel.toggleUserCategory(category)
+//                    }
+//                )
+//            } else {
+//                Text(text="loading")
+//            }
+
+            UserStats(
+                longestStreak = profileUiStateValues.longestStreak.toString(),
+                totalQuestions = profileUiStateValues.totalQuestions.toString(),
+                totalCorrectAns = profileUiStateValues.totalCorrectAns.toString()
+            )
         }
     }
 }

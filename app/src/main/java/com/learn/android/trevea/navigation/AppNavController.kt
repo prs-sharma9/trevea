@@ -6,7 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.learn.android.trevea.ui.screens.HomeScreen
-import com.learn.android.trevea.ui.screens.RegisterScreen
+import com.learn.android.trevea.ui.screens.ProfileScreen
+import com.learn.android.trevea.ui.screens.QuizScreen
 
 @Composable
 fun AppNavController(
@@ -27,11 +28,20 @@ fun AppNavController(
             )
         }
 
+//        TODO: Update the route to profile
         composable(
             route = "register"
         ) {
-            RegisterScreen(
+            ProfileScreen(
                 modifier = modifier,
+                navController = navHostController
+            )
+        }
+
+        composable (
+            route = "quiz"
+        ) {
+            QuizScreen(
                 navController = navHostController
             )
         }

@@ -34,7 +34,8 @@ import com.learn.android.trevea.R
 @Composable
 fun IconActionButton(
     modifier: Modifier = Modifier,
-    icon: ImageVector = Icons.Default.AccountCircle,
+    icon: ImageVector,
+    description: String,
     onAction: () -> Unit = {}
 ) {
     IconButton(
@@ -54,12 +55,11 @@ fun IconActionButton(
     }
 }
 
-@Preview
 @Composable
 fun TextActionButton(
     modifier: Modifier = Modifier,
-    label: String = "Action",
-    onAction: () -> Unit = {}
+    label: String,
+    onAction: () -> Unit
 ) {
     var scaleVal by remember { mutableStateOf(1f) }
     Row (
@@ -71,17 +71,11 @@ fun TextActionButton(
         horizontalArrangement = Arrangement.Center
     ) {
         TextButton(
-        modifier = modifier
-            .shadow(
-                elevation = 20.dp,
-                shape = RoundedCornerShape(15.dp),
-                clip = true,
-                ambientColor = MaterialTheme.colorScheme.tertiary
-            ),
+        modifier = modifier,
             onClick = {
                 onAction()
             },
-            shape = RoundedCornerShape(15.dp),
+            shape = RoundedCornerShape(20.dp),
             elevation = ButtonDefaults.buttonElevation(
                 defaultElevation = 15.dp,
                 pressedElevation = 2.dp
@@ -92,6 +86,8 @@ fun TextActionButton(
             )
         ) {
             Text(
+                modifier = Modifier
+                    .padding(20.dp),
                 text = label,
                 style = MaterialTheme.typography.labelLarge
             )

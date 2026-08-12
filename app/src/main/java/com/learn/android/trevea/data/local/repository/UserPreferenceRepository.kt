@@ -26,6 +26,20 @@ class UserPreferenceRepository (
             preferences[UserPreferences.IS_REGISTERED] ?: false
         }
 
+    val longestStreak: Flow<Int> = dataStore.data
+        .map { preference ->
+            preference[UserPreferences.LONGEST_STREAK] ?: 0
+        }
+
+    val totalQuestions: Flow<Int> = dataStore.data
+        .map { preference ->
+            preference[UserPreferences.TOTAL_QUESTION_COUNT] ?: 0
+        }
+
+    val totalCorrectAns: Flow<Int> = dataStore.data
+        .map { preference ->
+            preference[UserPreferences.TOTAL_CORRECT_ANSWER] ?: 0
+        }
 
     suspend fun saveUserName(name: String) {
         dataStore.edit { preferences ->
@@ -36,6 +50,24 @@ class UserPreferenceRepository (
     suspend fun savePhotoPath(path: String) {
         dataStore.edit { preferences ->
             preferences[UserPreferences.PHOTO_PATH] = path
+        }
+    }
+
+    suspend fun updateLongestStreak(count: Int) {
+        dataStore.edit { preference ->
+            preference[UserPreferences.LONGEST_STREAK] = count
+        }
+    }
+
+    suspend fun increaseTotalQuestion(count: Int) {
+        dataStore.edit { preference ->
+            preference[UserPreferences.TOTAL_QUESTION_COUNT] = count
+        }
+    }
+
+    suspend fun increaseTotalCorrectAnswer(count: Int) {
+        dataStore.edit { preference ->
+            preference[UserPreferences.TOTAL_CORRECT_ANSWER] = count
         }
     }
 

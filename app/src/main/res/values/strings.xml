@@ -11,4 +11,19 @@
     <string name="user_name">user_name</string>
     <string name="photo_url">photo_url</string>
     <string name="is_user_registered">is_user_registered</string>
+    <string name="save_btn_descp">Save button</string>
+
+    <string name="welcome">Welcome</string>
+    <string name="user_stats">Your Stats:</string>
+    <string name="longest_string">Longest Streak: </string>
+    <string name="total_questions">Total Questions: </string>
+    <string name="total_correct_ans">Correct Answers: </string>
+
+    <string name="start_quiz">Start Quiz</string>
+    <string name="select_topic">Select Topic</string>
+    <string name="end_quiz_btn_descp">End quiz</string>
+    <string name="quiz_random_topic">Random</string>
+
+    <string name="loading">Loading...</string>
+    <string name="error">Error...</string>
 </resources>

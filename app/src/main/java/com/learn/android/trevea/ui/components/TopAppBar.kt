@@ -9,19 +9,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.capitalize
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.learn.android.trevea.R
 
@@ -30,7 +23,7 @@ import com.learn.android.trevea.R
 fun TopAppBar(
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.app_name),
-    enableNavigationIcon: Boolean = false,
+    enableBackNavigation: Boolean = false,
     navController: NavController,
     enableActions: Boolean = false,
     actions: @Composable (RowScope.() -> Unit) = {}
@@ -48,7 +41,7 @@ fun TopAppBar(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         navigationIcon = {
-            if (enableNavigationIcon) {
+            if (enableBackNavigation) {
                 IconButton(
                     onClick = {
                         navController.popBackStack()
@@ -56,7 +49,8 @@ fun TopAppBar(
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBackIosNew,
-                        contentDescription = stringResource(R.string.back_icon_description)
+                        contentDescription = stringResource(R.string.back_icon_description),
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
             }

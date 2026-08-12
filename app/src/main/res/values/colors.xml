@@ -13,4 +13,8 @@
     <color name="txt_app_bar">#FF5C1A1A</color>
     <color name="txt_body_primary">#FF2C2C2C</color>
     <color name="txt_body_secondary">#FF3D1A00</color>
+
+    <color name="option_bg_neutral">#FFCFEBFF</color>
+    <color name="option_bg_correct">#FF66BB6A</color>
+    <color name="option_bg_wrong">#FFFF5555</color>
 </resources>

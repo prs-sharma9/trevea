@@ -18,14 +18,14 @@ val provider = GoogleFont.Provider(
 
 val bodyFontFamily = FontFamily(
     Font(
-        googleFont = GoogleFont("Road Rage"),
+        googleFont = GoogleFont("Luckiest Guy"),
         fontProvider = provider,
     )
 )
 
 val displayFontFamily = FontFamily(
     Font(
-        googleFont = GoogleFont("Slackey"),
+        googleFont = GoogleFont("Luckiest Guy"),
         fontProvider = provider,
     )
 )
@@ -55,11 +55,18 @@ val AppTypography = Typography(
     bodySmall = baseline.bodySmall.copy(fontFamily = bodyFontFamily),
     labelLarge = baseline.labelLarge.copy(
         fontFamily = bodyFontFamily,
-        fontSize = 33.sp,
+        fontSize = 50.sp,
         fontWeight = FontWeight.Bold,
         letterSpacing = 2.sp
     ),
-    labelMedium = baseline.labelMedium.copy(fontFamily = bodyFontFamily),
-    labelSmall = baseline.labelSmall.copy(fontFamily = bodyFontFamily),
+    labelMedium = baseline.labelMedium.copy(
+        fontFamily = bodyFontFamily,
+        fontSize = 35.sp,
+        lineHeight = 40.sp
+    ),
+    labelSmall = baseline.labelSmall.copy(
+        fontFamily = bodyFontFamily,
+        fontSize = 20.sp
+    ),
 )
 
