@@ -1,30 +1,37 @@
 package com.learn.android.trevea.ui.components
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.learn.android.trevea.R
-import kotlinx.coroutines.delay
 import kotlin.math.absoluteValue
 import kotlin.random.Random
 
@@ -34,8 +41,14 @@ fun QuestionView(
     question: String,
     correctAnswer: String,
     incorrectAnswer: List<String>,
-    onAnswerSelected: () -> Unit
+    streak: Int,
+    isOptionClickable: Boolean,
+    onAnswerSelected: (Boolean) -> Unit
 ) {
+
+    val tag = "QuestionView"
+
+    Log.d(tag, "isOptionClickable: $isOptionClickable")
 
     val questionId = remember (question) {
         Random.nextInt()
@@ -48,20 +61,7 @@ fun QuestionView(
         list
     }
 
-
-
     var optClickable by remember (questionId) { mutableStateOf(true) }
-
-
-
-    LaunchedEffect(optClickable) {
-        if(!optClickable) {
-            Log.d("QuestionView", "LaunchedEffect: Getting next question")
-            delay(2000)
-            onAnswerSelected()
-        }
-
-    }
 
     Column (
         modifier = Modifier
@@ -69,7 +69,7 @@ fun QuestionView(
     ) {
         Column(
             modifier = Modifier
-                .weight(0.4f)
+                .weight(0.3f)
                 .fillMaxWidth()
                 .padding(20.dp),
             horizontalAlignment = Alignment.Start,
@@ -96,29 +96,65 @@ fun QuestionView(
                     items = answers
                 ) { option ->
 
-//                    var optionBgColorState by remember { mutableStateOf(OptionBgState.NEUTRAL) }
-
                     OptionView(
                         optionTxt = option,
                         questionId = questionId.absoluteValue,
-                        isCorrect = option == correctAnswer
+                        isCorrect = option == correctAnswer,
+                        isClickable = isOptionClickable
                     ) {
                         if(optClickable) {
                             optClickable = false
                         }
+                        onAnswerSelected(option == correctAnswer)
                     }
+                }
+            }
+        }
+        Surface(
+            modifier = Modifier
+                .weight(0.1f)
+                .fillMaxWidth(),
+            color = Color.Transparent
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Transparent),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(MaterialTheme.colorScheme.primaryContainer),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier.padding(10.dp),
+                        text = "$streak",
+                        style = MaterialTheme.typography.displaySmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+
+                    Icon(
+                        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp, end = 10.dp),
+                        imageVector = Icons.Default.LocalFireDepartment,
+                        contentDescription = "Streak Icon",
+                        tint = colorResource(R.color.streak_flame)
+                    )
                 }
             }
         }
     }
 }
 
-
 @Composable
 fun OptionView (
     optionTxt: String,
     isCorrect:Boolean,
     questionId: Int,
+    isClickable: Boolean,
     cardClick: () -> Unit
 ) {
     var isClicked by remember (questionId) { mutableStateOf(false) }
@@ -133,7 +169,7 @@ fun OptionView (
                 else colorResource(R.color.option_bg_neutral)
         ),
         onClick = {
-            if(!isClicked) {
+            if(!isClicked && isClickable) {
                 Log.d("QuestionView", "isCorrect: $isCorrect")
                 isClicked = true
                 cardClick()
@@ -146,12 +182,13 @@ fun OptionView (
             modifier = Modifier
                 .padding(vertical = 20.dp, horizontal = 5.dp),
             text = optionTxt,
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.labelMedium,
+            color = if (isClicked && isCorrect)
+                colorResource(R.color.option_correct)
+            else
+                if (!isCorrect && isClicked)
+                    colorResource(R.color.option_wrong)
+                else colorResource(R.color.option_neutral)
         )
     }
 }
-
-
-//enum class OptionBgState{
-//    NEUTRAL, CORRECT, WRONG
-//}

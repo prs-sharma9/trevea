@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,9 +35,9 @@ fun Loading(
             CircularProgressIndicator(
                 modifier = Modifier
                     .size(150.dp),
-                color = MaterialTheme.colorScheme.primaryContainer,
+                color = colorResource(R.color.loading_bar),
                 strokeWidth = 20.dp,
-                trackColor = MaterialTheme.colorScheme.surfaceDim,
+                trackColor = colorResource(R.color.loading_bar_trail),
                 gapSize = 20.dp
             )
 
@@ -44,8 +45,8 @@ fun Loading(
 
             Text(
                 text = stringResource(R.string.loading),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
+                style = MaterialTheme.typography.displayMedium,
+                color = MaterialTheme.colorScheme.secondary
             )
         }
     }
@@ -61,7 +62,7 @@ fun Error(
     ) {
         Text(
             text = stringResource(R.string.error),
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.displayMedium,
             color = MaterialTheme.colorScheme.error
         )
     }

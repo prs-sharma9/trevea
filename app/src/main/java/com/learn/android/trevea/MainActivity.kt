@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.learn.android.trevea.navigation.AppNavController
+import com.learn.android.trevea.ui.components.AppBackground
 import com.learn.android.trevea.ui.theme.TreveaTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,9 +18,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TreveaTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AppNavController(modifier = Modifier.padding(innerPadding))
+                AppBackground() {
+                    AppNavController(modifier = Modifier.fillMaxSize())
                 }
+//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//
+//                }
             }
         }
     }

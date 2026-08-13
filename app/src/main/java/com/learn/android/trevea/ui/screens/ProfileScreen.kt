@@ -26,6 +26,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -37,8 +38,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.learn.android.trevea.R
-import com.learn.android.trevea.data.local.database.TreveaDatabase
-import com.learn.android.trevea.data.local.repository.UserRepository
 import com.learn.android.trevea.ui.components.TopAppBar
 import com.learn.android.trevea.viewmodel.profile.ProfileViewModel
 import com.learn.android.trevea.viewmodel.profile.ProfileViewModelFactory
@@ -66,11 +65,6 @@ fun ProfileScreen(
     // Create ViewModel instance
     val uViewModel: ProfileViewModel = viewModel(
         factory = ProfileViewModelFactory(
-            repository = UserRepository(
-                userCategoryDao = TreveaDatabase.getInstance(
-                    context = context
-                ).userCategoryDao()
-            ),
             prefRepository = UserPreferenceRepository(context.userDataStore)
         )
     )
@@ -79,7 +73,8 @@ fun ProfileScreen(
         factory = QuizViewModelFactory(
             repository = OtdbRepository(
                 api = RetrofitInstance.otdbApi
-            )
+            ),
+            preference = UserPreferenceRepository(context.userDataStore)
         )
     )
 
@@ -91,9 +86,6 @@ fun ProfileScreen(
     val allCategoryList = tViewModel.quizUiState.collectAsStateWithLifecycle().value
 
     val userName = profileUiStateValues.name
-//    val userCategoryList = regUiStateValues.userCategories
-
-//    Log.d(tag, "User Category Count: ${userCategoryList.size}")
 
     Scaffold(
         topBar = {
@@ -113,7 +105,8 @@ fun ProfileScreen(
                     }
                 }
             )
-        }
+        },
+        containerColor = Color.Transparent
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -151,7 +144,7 @@ fun ProfileScreen(
                 ) {
                     Text(
                         text = stringResource(R.string.choose_profile_picture),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.displayMedium,
                         color = MaterialTheme.colorScheme.secondary
                     )
                 }
@@ -164,9 +157,13 @@ fun ProfileScreen(
                     .fillMaxWidth(0.8f),
                 value = userName,
                 onValueChange = { uViewModel.updateUserName(it)},
-                textStyle = MaterialTheme.typography.labelMedium,
+                textStyle = MaterialTheme.typography.displayMedium,
                 label = {
-                    Text(text = stringResource(R.string.username_label))
+                    Text(
+                        text = stringResource(R.string.username_label),
+                        style = MaterialTheme.typography.displaySmall,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
                 },
                 shape = RoundedCornerShape(20.dp),
                 singleLine = true,
@@ -175,7 +172,10 @@ fun ProfileScreen(
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
-                    onDone = { keyboardManager?.hide() }
+                    onDone = {
+                        keyboardManager?.hide()
+                        focusManager.clearFocus()
+                    }
                 )
             )
 
@@ -186,23 +186,11 @@ fun ProfileScreen(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth(),
-                style = MaterialTheme.typography.labelMedium
+                style = MaterialTheme.typography.displayMedium,
+                color = MaterialTheme.colorScheme.secondary
             )
 
             Spacer(modifier = Modifier.height(20.dp))
-
-//            if ( allCategoryList is QuizViewModel.QuizUiState.CategoryList) {
-//                CategoryList (
-//                    allCategories = allCategoryList.categories,
-//                    userCategories = userCategoryList,
-//                    selectionMode = true,
-//                    onSelectionChanged = { category ->
-//                        uViewModel.toggleUserCategory(category)
-//                    }
-//                )
-//            } else {
-//                Text(text="loading")
-//            }
 
             UserStats(
                 longestStreak = profileUiStateValues.longestStreak.toString(),

@@ -1,6 +1,5 @@
 package com.learn.android.trevea.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,11 +34,13 @@ fun StatsItem (
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.displayMedium,
+            color = MaterialTheme.colorScheme.secondary
         )
         Text(
             text = value,
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.displayMedium,
+            color = MaterialTheme.colorScheme.secondary
         )
 
     }
@@ -56,7 +57,6 @@ fun UserStats(
             .fillMaxSize()
             .padding(20.dp)
             .clip(RoundedCornerShape(20.dp))
-            .background(MaterialTheme.colorScheme.surfaceDim)
             .border(width = Dp.Hairline, color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(20.dp)),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally

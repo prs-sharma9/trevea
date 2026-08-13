@@ -88,7 +88,7 @@ fun CategoryListItem(
                     .padding(10.dp),
                 textAlign = TextAlign.Start,
                 text = category.categoryName,
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.displaySmall,
                 color = MaterialTheme.colorScheme.secondary
             )
         }

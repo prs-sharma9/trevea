@@ -18,7 +18,7 @@ val provider = GoogleFont.Provider(
 
 val bodyFontFamily = FontFamily(
     Font(
-        googleFont = GoogleFont("Luckiest Guy"),
+        googleFont = GoogleFont("Asap"),
         fontProvider = provider,
     )
 )
@@ -34,9 +34,21 @@ val displayFontFamily = FontFamily(
 val baseline = Typography()
 
 val AppTypography = Typography(
-    displayLarge = baseline.displayLarge.copy(fontFamily = displayFontFamily,),
-    displayMedium = baseline.displayMedium.copy(fontFamily = displayFontFamily),
-    displaySmall = baseline.displaySmall.copy(fontFamily = displayFontFamily),
+    displayLarge = baseline.displayLarge.copy(
+        fontFamily = displayFontFamily,
+        fontSize = 50.sp,
+        fontWeight = FontWeight.Bold,
+        letterSpacing = 2.sp
+    ),
+    displayMedium = baseline.displayMedium.copy(
+        fontFamily = displayFontFamily,
+        fontSize = 30.sp,
+        lineHeight = 35.sp
+    ),
+    displaySmall = baseline.displaySmall.copy(
+        fontFamily = displayFontFamily,
+        fontSize = 20.sp
+    ),
     headlineLarge = baseline.headlineLarge.copy(fontFamily = displayFontFamily),
     headlineMedium = baseline.headlineMedium.copy(fontFamily = displayFontFamily),
     headlineSmall = baseline.headlineSmall.copy(fontFamily = displayFontFamily),
@@ -61,8 +73,9 @@ val AppTypography = Typography(
     ),
     labelMedium = baseline.labelMedium.copy(
         fontFamily = bodyFontFamily,
-        fontSize = 35.sp,
-        lineHeight = 40.sp
+        fontSize = 30.sp,
+        fontWeight = FontWeight.SemiBold,
+        lineHeight = 35.sp
     ),
     labelSmall = baseline.labelSmall.copy(
         fontFamily = bodyFontFamily,

@@ -15,6 +15,14 @@
     <color name="txt_body_secondary">#FF3D1A00</color>
 
     <color name="option_bg_neutral">#FFCFEBFF</color>
+    <color name="option_neutral">#FF0D47A1</color>
     <color name="option_bg_correct">#FF66BB6A</color>
+    <color name="option_correct">#FF1B5E20</color>
     <color name="option_bg_wrong">#FFFF5555</color>
+    <color name="option_wrong">#FF8B1E2D</color>
+
+    <color name="streak_flame">#FFFB6C00</color>
+
+    <color name="loading_bar">#0011FB</color>
+    <color name="loading_bar_trail">#62009FFB</color>
 </resources>
