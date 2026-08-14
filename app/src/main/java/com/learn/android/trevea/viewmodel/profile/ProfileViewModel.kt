@@ -1,8 +1,12 @@
 package com.learn.android.trevea.viewmodel.profile
 
+import android.content.Context
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learn.android.trevea.data.local.repository.UserPreferenceRepository
+import com.learn.android.trevea.utils.saveImageToInternalStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -10,11 +14,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
 
 class ProfileViewModel(
     private val userPreferenceRepository: UserPreferenceRepository
 ) : ViewModel() {
 
+    private val tag = "Trevea: ProfileViewModel"
     private val _profileUiState = MutableStateFlow(ProfileUiState())
     val uiState: StateFlow<ProfileUiState> = _profileUiState.asStateFlow()
 
@@ -71,13 +77,32 @@ class ProfileViewModel(
         }
     }
 
-    fun updatePhotoPath (path: String) {
-        _profileUiState.update {
-            it.copy(photoUrl = path)
+    fun saveUserProfile (context: Context, path: Uri) {
+        Log.d(tag, "updateProfilePhoto ${path.encodedPath}")
+        viewModelScope.launch (Dispatchers.IO) {
+            try {
+
+            } catch (e: Exception) {
+
+            }
+            if (_profileUiState.value.photoUrl != null) {
+                val oldFile = File(_profileUiState.value.photoUrl)
+                if(oldFile.exists()) {
+                    oldFile.delete()
+                }
+            }
+            val savedPath = saveImageToInternalStorage(context = context, uri = path)
+            savedPath?.let { path ->
+                _profileUiState.update { it.copy( photoUrl = path ) }
+            }
+            userPreferenceRepository.saveUserProfile(
+                name = _profileUiState.value.name,
+                path = _profileUiState.value.photoUrl
+            )
         }
     }
 
-    fun saveUserProfile() {
+    fun saveUserProfile () {
         viewModelScope.launch(Dispatchers.IO) {
             val currentState = _profileUiState.value
             userPreferenceRepository.saveUserProfile(

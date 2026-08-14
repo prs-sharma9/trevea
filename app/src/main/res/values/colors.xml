@@ -25,4 +25,6 @@
 
     <color name="loading_bar">#0011FB</color>
     <color name="loading_bar_trail">#62009FFB</color>
+
+    <color name="light_bg">#D9E9CF</color>
 </resources>

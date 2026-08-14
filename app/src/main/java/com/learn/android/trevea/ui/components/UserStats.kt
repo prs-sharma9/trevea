@@ -1,5 +1,6 @@
 package com.learn.android.trevea.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -57,7 +59,10 @@ fun UserStats(
             .fillMaxSize()
             .padding(20.dp)
             .clip(RoundedCornerShape(20.dp))
-            .border(width = Dp.Hairline, color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(20.dp)),
+            .border(width = Dp.Hairline, color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(20.dp))
+            .background(
+                color = colorResource(R.color.light_bg)
+            ),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

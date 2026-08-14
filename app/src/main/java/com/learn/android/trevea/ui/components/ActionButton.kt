@@ -21,7 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -34,6 +33,7 @@ fun IconActionButton(
     description: String,
     onAction: () -> Unit = {}
 ) {
+    val tag = "Trevea: IconActionButton"
     IconButton(
 
         onClick = {
@@ -57,6 +57,7 @@ fun TextActionButton(
     label: String,
     onAction: () -> Unit
 ) {
+    val tag = "Trevea: TextActionButton"
     var scaleVal by remember { mutableStateOf(1f) }
     Row (
         modifier = modifier

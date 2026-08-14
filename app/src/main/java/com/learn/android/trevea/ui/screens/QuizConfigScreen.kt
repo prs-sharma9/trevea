@@ -62,7 +62,13 @@ fun QuizConfigScreen(
                     CategoryList(
                         allCategories = (uiState.value as QuizConfigViewModel.QuizConfigUiState.CategoryList).categories,
                         onItemClick = { category ->
-                            navController.navigate("quiz/${category.categoryId}")
+                            navController.navigate(
+                                route = "quiz/${category.categoryId}"
+                            ) {
+                                popUpTo(route = "quiz_config") {
+                                    inclusive = true
+                                }
+                            }
                         }
                     )
                 }

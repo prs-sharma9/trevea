@@ -1,7 +1,12 @@
 package com.learn.android.trevea.ui.screens
 
+import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,7 +32,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -43,14 +51,12 @@ import com.learn.android.trevea.viewmodel.profile.ProfileViewModel
 import com.learn.android.trevea.viewmodel.profile.ProfileViewModelFactory
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.compose.AsyncImage
 import com.learn.android.trevea.data.local.preferences.userDataStore
 import com.learn.android.trevea.data.local.repository.UserPreferenceRepository
-import com.learn.android.trevea.data.remote.repository.OtdbRepository
-import com.learn.android.trevea.data.remote.retrofit.RetrofitInstance
 import com.learn.android.trevea.ui.components.IconActionButton
 import com.learn.android.trevea.ui.components.UserStats
-import com.learn.android.trevea.viewmodel.quiz.QuizViewModel
-import com.learn.android.trevea.viewmodel.quiz.QuizViewModelFactory
+import java.io.File
 
 @Composable
 fun ProfileScreen(
@@ -58,7 +64,7 @@ fun ProfileScreen(
     navController: NavController
 ) {
 
-    val tag = "REGISTRATION_SCREEN"
+    val tag = "Trevea: ProfileScreen"
 
     val context = LocalContext.current
 
@@ -69,23 +75,23 @@ fun ProfileScreen(
         )
     )
 
-    val tViewModel: QuizViewModel = viewModel(
-        factory = QuizViewModelFactory(
-            repository = OtdbRepository(
-                api = RetrofitInstance.otdbApi
-            ),
-            preference = UserPreferenceRepository(context.userDataStore)
-        )
-    )
-
     val focusManager = LocalFocusManager.current
     val keyboardManager = LocalSoftwareKeyboardController.current
 
 
     val profileUiStateValues = uViewModel.uiState.collectAsStateWithLifecycle().value
-    val allCategoryList = tViewModel.quizUiState.collectAsStateWithLifecycle().value
 
     val userName = profileUiStateValues.name
+    val profilePhoto = profileUiStateValues.photoUrl
+    Log.d(tag, "photoPath: $profilePhoto")
+
+    val photoPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        uri?.let {
+            uViewModel.saveUserProfile(context = context, path = uri)
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -120,15 +126,33 @@ fun ProfileScreen(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(
+
+
+                if(profilePhoto != null) {
+                    AsyncImage(
+                        model = File(profilePhoto),
+                        contentDescription = stringResource(R.string.profile_picture_description),
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .height(150.dp)
+                            .width(150.dp)
+                            .padding(20.dp)
+                            .clip(CircleShape)
+                            .border(2.dp, MaterialTheme.colorScheme.primary, shape = CircleShape),
+                        clipToBounds = true
+                    )
+                } else {
+                    Icon(
                     imageVector = Icons.Default.AccountCircle,
                     contentDescription = stringResource(R.string.profile_picture_description),
-                    tint = MaterialTheme.colorScheme.primaryContainer,
+                    tint = MaterialTheme.colorScheme.secondaryContainer,
                     modifier = Modifier
                         .height(150.dp)
                         .width(150.dp)
                         .padding(20.dp)
-                )
+                    )
+                }
+
                 TextButton(
                     modifier = Modifier,
                     shape = RoundedCornerShape(10.dp),
@@ -140,7 +164,13 @@ fun ProfileScreen(
                         width = Dp.Hairline,
                         color = MaterialTheme.colorScheme.secondary
                     ),
-                    onClick = {}
+                    onClick = {
+                        photoPicker.launch(
+                            PickVisualMediaRequest(
+                                mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                            )
+                        )
+                    }
                 ) {
                     Text(
                         text = stringResource(R.string.choose_profile_picture),
