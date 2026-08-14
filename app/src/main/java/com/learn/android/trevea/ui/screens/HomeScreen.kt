@@ -35,6 +35,7 @@ import com.learn.android.trevea.data.local.preferences.userDataStore
 import com.learn.android.trevea.data.local.repository.UserPreferenceRepository
 import com.learn.android.trevea.ui.components.TopAppBar
 import com.learn.android.trevea.ui.components.IconActionButton
+import com.learn.android.trevea.ui.components.StringTitle
 import com.learn.android.trevea.ui.components.TextActionButton
 import com.learn.android.trevea.viewmodel.profile.ProfileViewModel
 import com.learn.android.trevea.viewmodel.profile.ProfileViewModelFactory
@@ -62,6 +63,9 @@ fun HomeScreen(
 
     Scaffold(
         topBar = { TopAppBar(
+            title = {
+                StringTitle(stringResource(R.string.app_name))
+            },
             enableBackNavigation = false,
             navController = navController,
             enableActions = true,

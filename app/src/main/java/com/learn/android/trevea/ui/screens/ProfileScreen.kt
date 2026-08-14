@@ -1,15 +1,19 @@
 package com.learn.android.trevea.ui.screens
 
+import android.content.res.Configuration
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -49,12 +54,12 @@ import com.learn.android.trevea.R
 import com.learn.android.trevea.ui.components.TopAppBar
 import com.learn.android.trevea.viewmodel.profile.ProfileViewModel
 import com.learn.android.trevea.viewmodel.profile.ProfileViewModelFactory
-import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.learn.android.trevea.data.local.preferences.userDataStore
 import com.learn.android.trevea.data.local.repository.UserPreferenceRepository
 import com.learn.android.trevea.ui.components.IconActionButton
+import com.learn.android.trevea.ui.components.StringTitle
 import com.learn.android.trevea.ui.components.UserStats
 import java.io.File
 
@@ -93,10 +98,16 @@ fun ProfileScreen(
         }
     }
 
+    val configuration = LocalConfiguration.current
+
+    Log.d(tag, "Orientation: ${configuration.orientation}, Layout: ${configuration.screenLayout}")
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = stringResource(R.string.reg_user_screen_title),
+                title = {
+                    StringTitle(stringResource(R.string.reg_user_screen_title))
+                },
                 enableBackNavigation = true,
                 navController = navController,
                 enableActions = true,
@@ -114,119 +125,201 @@ fun ProfileScreen(
         },
         containerColor = Color.Transparent
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
 
-
-                if(profilePhoto != null) {
-                    AsyncImage(
-                        model = File(profilePhoto),
-                        contentDescription = stringResource(R.string.profile_picture_description),
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .height(150.dp)
-                            .width(150.dp)
-                            .padding(20.dp)
-                            .clip(CircleShape)
-                            .border(2.dp, MaterialTheme.colorScheme.primary, shape = CircleShape),
-                        clipToBounds = true
-                    )
-                } else {
-                    Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = stringResource(R.string.profile_picture_description),
-                    tint = MaterialTheme.colorScheme.secondaryContainer,
+        when (configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                Column(
                     modifier = Modifier
-                        .height(150.dp)
-                        .width(150.dp)
-                        .padding(20.dp)
-                    )
-                }
-
-                TextButton(
-                    modifier = Modifier,
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer
-                    ),
-                    elevation = ButtonDefaults.buttonElevation(defaultElevation = 10.dp, pressedElevation = 1.dp),
-                    border = BorderStroke(
-                        width = Dp.Hairline,
-                        color = MaterialTheme.colorScheme.secondary
-                    ),
-                    onClick = {
-                        photoPicker.launch(
-                            PickVisualMediaRequest(
-                                mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
-                            )
-                        )
-                    }
+                        .padding(innerPadding)
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = stringResource(R.string.choose_profile_picture),
-                        style = MaterialTheme.typography.displayMedium,
-                        color = MaterialTheme.colorScheme.secondary
+
+                    ProfilePicture(
+                        profilePhoto = profilePhoto,
+                        choosePhotoHandler = {
+                            photoPicker.launch(
+                                PickVisualMediaRequest(
+                                    mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                                )
+                            )
+                        }
+                    )
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    UserNameInput(
+                        value = userName,
+                        onValueChange = {
+                            uViewModel.updateUserName(it)
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                keyboardManager?.hide()
+                                focusManager.clearFocus()
+                            }
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    UserStats(
+                        longestStreak = profileUiStateValues.longestStreak.toString(),
+                        totalQuestions = profileUiStateValues.totalQuestions.toString(),
+                        totalCorrectAns = profileUiStateValues.totalCorrectAns.toString()
                     )
                 }
             }
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                Row(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(0.5f)
+                            .padding(start = 10.dp)
+                    ) {
+                        ProfilePicture(
+                            profilePhoto = profilePhoto,
+                            choosePhotoHandler = {
+                                photoPicker.launch(
+                                    PickVisualMediaRequest(
+                                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                                    )
+                                )
+                            }
+                        )
 
-            Spacer(modifier = Modifier.height(20.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
 
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth(0.8f),
-                value = userName,
-                onValueChange = { uViewModel.updateUserName(it)},
-                textStyle = MaterialTheme.typography.displayMedium,
-                label = {
-                    Text(
-                        text = stringResource(R.string.username_label),
-                        style = MaterialTheme.typography.displaySmall,
-                        color = MaterialTheme.colorScheme.secondary
-                    )
-                },
-                shape = RoundedCornerShape(20.dp),
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        keyboardManager?.hide()
-                        focusManager.clearFocus()
+                        UserNameInput(
+                            value = userName,
+                            onValueChange = {
+                                uViewModel.updateUserName(it)
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Done
+                            ),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    keyboardManager?.hide()
+                                    focusManager.clearFocus()
+                                }
+                            )
+                        )
                     }
-                )
-            )
 
-            Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.width(10.dp))
 
-            Text(
-                text = stringResource(R.string.user_stats),
-                textAlign = TextAlign.Center,
+                    UserStats(
+                        modifier = Modifier.weight(0.5f),
+                        longestStreak = profileUiStateValues.longestStreak.toString(),
+                        totalQuestions = profileUiStateValues.totalQuestions.toString(),
+                        totalCorrectAns = profileUiStateValues.totalCorrectAns.toString()
+                    )
+                }
+            }
+        }
+
+    }
+}
+
+@Composable
+fun ProfilePicture(
+    profilePhoto: String?,
+    choosePhotoHandler: () -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+
+        if(profilePhoto != null) {
+            AsyncImage(
+                model = File(profilePhoto),
+                contentDescription = stringResource(R.string.profile_picture_description),
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .height(150.dp)
+                    .width(150.dp)
+                    .padding(10.dp)
+                    .clip(CircleShape)
+                    .border(2.dp, MaterialTheme.colorScheme.primary, shape = CircleShape),
+                clipToBounds = true
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Default.AccountCircle,
+                contentDescription = stringResource(R.string.profile_picture_description),
+                tint = MaterialTheme.colorScheme.secondaryContainer,
+                modifier = Modifier
+                    .height(150.dp)
+                    .width(150.dp)
+                    .padding(10.dp)
+            )
+        }
+
+        TextButton(
+            modifier = Modifier,
+            shape = RoundedCornerShape(10.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer
+            ),
+            elevation = ButtonDefaults.buttonElevation(defaultElevation = 10.dp, pressedElevation = 1.dp),
+            border = BorderStroke(
+                width = Dp.Hairline,
+                color = MaterialTheme.colorScheme.secondary
+            ),
+            onClick = {
+                choosePhotoHandler()
+            }
+        ) {
+            Text(
+                text = stringResource(R.string.choose_profile_picture),
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.secondary
             )
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            UserStats(
-                longestStreak = profileUiStateValues.longestStreak.toString(),
-                totalQuestions = profileUiStateValues.totalQuestions.toString(),
-                totalCorrectAns = profileUiStateValues.totalCorrectAns.toString()
-            )
         }
     }
+}
+
+@Composable
+fun UserNameInput(
+    modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
+    keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions
+) {
+    OutlinedTextField(
+        modifier = modifier
+            .fillMaxWidth(0.8f),
+        value = value,
+        onValueChange = onValueChange,
+        textStyle = MaterialTheme.typography.displayMedium,
+        label = {
+            Text(
+                text = stringResource(R.string.username_label),
+                style = MaterialTheme.typography.displaySmall,
+                color = MaterialTheme.colorScheme.secondary
+            )
+        },
+        shape = RoundedCornerShape(20.dp),
+        singleLine = true,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions
+    )
 }

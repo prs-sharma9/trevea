@@ -1,7 +1,7 @@
 package com.learn.android.trevea.ui.components
 
+import android.content.res.Configuration
 import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,9 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -26,8 +23,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
@@ -46,7 +43,7 @@ fun QuestionView(
     onAnswerSelected: (Boolean) -> Unit
 ) {
 
-    val tag = "QuestionView"
+    val tag = "Trevea: QuestionView"
 
     Log.d(tag, "isOptionClickable: $isOptionClickable")
 
@@ -61,91 +58,124 @@ fun QuestionView(
         list
     }
 
-    var optClickable by remember (questionId) { mutableStateOf(true) }
+    val configuration = LocalConfiguration.current
 
-    Column (
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Column(
-            modifier = Modifier
-                .weight(0.3f)
-                .fillMaxWidth()
-                .padding(20.dp),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = question,
-                style = MaterialTheme.typography.labelMedium
-            )
-        }
-        Column (
-            modifier = Modifier
-                .weight(0.6f)
-                .fillMaxWidth()
-                .padding(20.dp),
-        ) {
-            LazyColumn(
+    when (configuration.orientation) {
+        Configuration.ORIENTATION_PORTRAIT -> {
+            Column (
                 modifier = Modifier
                     .fillMaxSize(),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.SpaceEvenly
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.Start
             ) {
-                items(
-                    items = answers
-                ) { option ->
 
-                    OptionView(
-                        optionTxt = option,
-                        questionId = questionId.absoluteValue,
-                        isCorrect = option == correctAnswer,
-                        isClickable = isOptionClickable
-                    ) {
-                        if(optClickable) {
-                            optClickable = false
-                        }
-                        onAnswerSelected(option == correctAnswer)
-                    }
-                }
-            }
-        }
-        Surface(
-            modifier = Modifier
-                .weight(0.1f)
-                .fillMaxWidth(),
-            color = Color.Transparent
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.Transparent),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End
-            ) {
-                Row(
+                Surface(
                     modifier = Modifier
-                        .padding(10.dp)
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(MaterialTheme.colorScheme.primaryContainer),
-                    verticalAlignment = Alignment.CenterVertically
+                        .weight(0.4f),
+                    color = Color.Transparent
                 ) {
-                    Text(
-                        modifier = Modifier.padding(10.dp),
-                        text = "$streak",
-                        style = MaterialTheme.typography.displaySmall,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    QuestionView(
+                        questionTxt = question
                     )
+                }
 
-                    Icon(
-                        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp, end = 10.dp),
-                        imageVector = Icons.Default.LocalFireDepartment,
-                        contentDescription = "Streak Icon",
-                        tint = colorResource(R.color.streak_flame)
+                Surface(
+                    modifier = Modifier
+                        .weight(0.6f),
+                    color = Color.Transparent
+                ) {
+                    OptionsView(
+                        answers = answers,
+                        questionId = questionId,
+                        correctAnswer = correctAnswer,
+                        isOptionClickable = isOptionClickable,
+//                optClickable = optClickable,
+                        onOptionSelected = onAnswerSelected
                     )
                 }
             }
         }
+        Configuration.ORIENTATION_LANDSCAPE -> {
+            Row (
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Surface(
+                    modifier = Modifier
+                        .weight(0.5f),
+                    color = Color.Transparent
+                ) {
+                    QuestionView(
+                        questionTxt = question
+                    )
+                }
+
+                Surface(
+                    modifier = Modifier
+                        .weight(0.5f),
+                    color = Color.Transparent
+                ) {
+                    OptionsView(
+                        answers = answers,
+                        questionId = questionId,
+                        correctAnswer = correctAnswer,
+                        isOptionClickable = isOptionClickable,
+                        onOptionSelected = onAnswerSelected
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+@Composable
+fun OptionsView(
+    modifier: Modifier = Modifier,
+    answers: List<String>,
+    questionId: Int,
+    correctAnswer: String,
+    isOptionClickable: Boolean,
+    onOptionSelected: (Boolean) -> Unit
+) {
+    LazyColumn(
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        items(
+            items = answers
+        ) { option ->
+
+            OptionView(
+                optionTxt = option,
+                questionId = questionId.absoluteValue,
+                isCorrect = option == correctAnswer,
+                isClickable = isOptionClickable
+            ) {
+                onOptionSelected(option == correctAnswer)
+            }
+        }
+    }
+}
+
+
+@Composable
+fun QuestionView(
+    modifier: Modifier = Modifier,
+    questionTxt: String
+) {
+    Column(
+        modifier = modifier
+            .padding(20.dp),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = questionTxt,
+            style = MaterialTheme.typography.labelMedium
+        )
     }
 }
 
@@ -159,7 +189,9 @@ fun OptionView (
 ) {
     var isClicked by remember (questionId) { mutableStateOf(false) }
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp),
         colors = CardDefaults.cardColors().copy(
             containerColor = if (isClicked && isCorrect)
                 colorResource(R.color.option_bg_correct)

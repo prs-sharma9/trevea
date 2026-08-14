@@ -23,7 +23,7 @@ import com.learn.android.trevea.R
 @Composable
 fun TopAppBar(
     modifier: Modifier = Modifier,
-    title: String = stringResource(R.string.app_name),
+    title: @Composable (() -> Unit),
     enableBackNavigation: Boolean = false,
     navController: NavController,
     enableActions: Boolean = false,
@@ -31,13 +31,7 @@ fun TopAppBar(
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier,
-        title = {
-            Text(
-                text = title.capitalize(locale = Locale.current),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary
-            )
-        },
+        title = title,
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent
         ),
@@ -61,5 +55,17 @@ fun TopAppBar(
                 actions()
             }
         }
+    )
+}
+
+
+@Composable
+fun StringTitle(
+    titleTxt: String
+) {
+    Text(
+        text = titleTxt.capitalize(locale = Locale.current),
+        style = MaterialTheme.typography.titleLarge,
+        color = MaterialTheme.colorScheme.primary
     )
 }

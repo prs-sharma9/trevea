@@ -16,6 +16,7 @@ import com.learn.android.trevea.data.remote.retrofit.RetrofitInstance
 import com.learn.android.trevea.ui.components.CategoryList
 import com.learn.android.trevea.ui.components.Error
 import com.learn.android.trevea.ui.components.Loading
+import com.learn.android.trevea.ui.components.StringTitle
 import com.learn.android.trevea.ui.components.TopAppBar
 import com.learn.android.trevea.viewmodel.quizConfig.QuizConfigViewModel
 import com.learn.android.trevea.viewmodel.quizConfig.QuizConfigViewModelFactory
@@ -39,7 +40,7 @@ fun QuizConfigScreen(
         topBar = {
             TopAppBar(
                 modifier = Modifier,
-                title = stringResource(R.string.quiz_config_title),
+                title = { StringTitle(stringResource(R.string.quiz_config_title)) },
                 navController = navController,
                 enableBackNavigation = true,
                 enableActions = false,

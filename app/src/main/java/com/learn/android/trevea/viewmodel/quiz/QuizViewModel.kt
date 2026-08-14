@@ -157,6 +157,7 @@ class QuizViewModel(
                     _quizUiState.value = QuizUiState.QuizMode
                 },
                 onFailure = { exception ->
+                    Log.e(tag, exception.message ?: "Unknown Error while getting questions")
                     _quizUiState.value = QuizUiState.Error(exception.message ?: "Unknown Error")
                 }
             )
@@ -185,17 +186,17 @@ class QuizViewModel(
         return status
     }
 
-    fun getNextQuestion(): Question {
-        if (_currentQuestionIdx.value >= _displayedQuestions.value.size) {
-            if(!refreshQuestionList()) {
-                _quizUiState.value = QuizUiState.Error("Error while getting next question, Restart the quiz")
-                return Question.default()
-            }
-        }
-        Log.i(tag, "Next question idx: ${_currentQuestionIdx.value}")
-
-        return _displayedQuestions.value[_currentQuestionIdx.value].also { _currentQuestionIdx.value++ }
-    }
+//    fun getNextQuestion(): Question {
+//        if (_currentQuestionIdx.value >= _displayedQuestions.value.size) {
+//            if(!refreshQuestionList()) {
+//                _quizUiState.value = QuizUiState.Error("Error while getting next question, Restart the quiz")
+//                return Question.default()
+//            }
+//        }
+//        Log.i(tag, "Next question idx: ${_currentQuestionIdx.value}")
+//
+//        return _displayedQuestions.value[_currentQuestionIdx.value].also { _currentQuestionIdx.value++ }
+//    }
 }
 
 data class UserStats(
