@@ -23,6 +23,7 @@ class OtdbRepository(private val api: OtdbApiService) {
         amount: Int = 10,
         categoryId: Int = 0,
     ): Result<QuestionResponse> {
+        Log.d(tag, "Current call stack: ${Log.getStackTraceString(Exception())}")
         return try {
             val response = api.getQuestions(
                 amount = amount,

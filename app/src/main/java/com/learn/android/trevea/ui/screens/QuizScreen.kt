@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -68,6 +69,7 @@ fun QuizScreen(
     var currentStreak by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(categoryId) {
+        Log.d(tag, "Launch Effect: CategoryID: $categoryId")
         var id: Int = 0
         try {
             id = categoryId?.toInt() ?: 0
@@ -87,16 +89,19 @@ fun QuizScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
-                            modifier = Modifier.padding(top = 10.dp, bottom = 10.dp, end = 10.dp),
+                            modifier = Modifier
+                                .width(60.dp)
+                                .height(60.dp)
+                                .padding(top = 10.dp, bottom = 10.dp, start = 10.dp),
                             imageVector = Icons.Default.LocalFireDepartment,
                             contentDescription = stringResource(R.string.streak_icon_description),
                             tint = colorResource(R.color.streak_flame)
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
-                            modifier = Modifier.padding(10.dp),
+//                            modifier = Modifier.padding(10.dp),
                             text = "$currentStreak",
-                            style = MaterialTheme.typography.displaySmall,
+                            style = MaterialTheme.typography.displayMedium,
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }

@@ -46,7 +46,7 @@ class QuizViewModel(
     val answerState = _answerState.asStateFlow()
     private val _questionBuffer = MutableStateFlow<List<Question>>(emptyList())
 
-    private var categoryId: Int = 0;
+    private var categoryId: Int = -1;
 
     val currentQuestion: StateFlow<Question?> = combine(
         _displayedQuestions.asStateFlow(),
@@ -68,8 +68,10 @@ class QuizViewModel(
     }
 
     fun setCategory(id: Int) {
-        categoryId = id
-        getQuestions()
+        if(categoryId != id) {
+            categoryId = id
+            getQuestions()
+        }
     }
     private fun getUserStats() {
         viewModelScope.launch {
@@ -176,7 +178,7 @@ class QuizViewModel(
             _currentQuestionIdx.value = 0
             status = true
         } else {
-            Log.e(tag, "Question Buffer empty")
+            Log.e(tag, "Question Buffer empty, something went wrong. CHECK!!!")
         }
         viewModelScope.launch {
             delay(15000)

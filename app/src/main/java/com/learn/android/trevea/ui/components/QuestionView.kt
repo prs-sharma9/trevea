@@ -191,7 +191,7 @@ fun OptionView (
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp),
+            .padding(vertical = 10.dp, horizontal = 20.dp),
         colors = CardDefaults.cardColors().copy(
             containerColor = if (isClicked && isCorrect)
                 colorResource(R.color.option_bg_correct)
@@ -212,7 +212,7 @@ fun OptionView (
     ) {
         Text(
             modifier = Modifier
-                .padding(vertical = 20.dp, horizontal = 5.dp),
+                .padding(vertical = 20.dp, horizontal = 10.dp),
             text = optionTxt,
             style = MaterialTheme.typography.labelMedium,
             color = if (isClicked && isCorrect)
