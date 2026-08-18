@@ -2,6 +2,8 @@ package com.learn.android.trevea.ui.components
 
 import android.content.res.Configuration
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -174,7 +176,8 @@ fun QuestionView(
     ) {
         Text(
             text = questionTxt,
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.labelMedium,
+            color = colorResource(R.color.secondary)
         )
     }
 }
@@ -206,9 +209,8 @@ fun OptionView (
                 isClicked = true
                 cardClick()
             }
-
-
-        }
+        },
+        border = BorderStroke(1.dp, colorResource(R.color.secondary))
     ) {
         Text(
             modifier = Modifier
@@ -220,7 +222,7 @@ fun OptionView (
             else
                 if (!isCorrect && isClicked)
                     colorResource(R.color.option_wrong)
-                else colorResource(R.color.option_neutral)
+                else colorResource(R.color.accent)
         )
     }
 }

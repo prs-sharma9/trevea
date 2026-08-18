@@ -43,6 +43,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -257,14 +258,14 @@ fun ProfilePicture(
                     .width(150.dp)
                     .padding(10.dp)
                     .clip(CircleShape)
-                    .border(2.dp, MaterialTheme.colorScheme.primary, shape = CircleShape),
+                    .border(2.dp, colorResource(R.color.secondary), shape = CircleShape),
                 clipToBounds = true
             )
         } else {
             Icon(
                 imageVector = Icons.Default.AccountCircle,
                 contentDescription = stringResource(R.string.profile_picture_description),
-                tint = MaterialTheme.colorScheme.secondaryContainer,
+                tint = colorResource(R.color.secondary),
                 modifier = Modifier
                     .height(150.dp)
                     .width(150.dp)
@@ -276,12 +277,12 @@ fun ProfilePicture(
             modifier = Modifier,
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer
+                containerColor = colorResource(R.color.secondary)
             ),
             elevation = ButtonDefaults.buttonElevation(defaultElevation = 10.dp, pressedElevation = 1.dp),
             border = BorderStroke(
                 width = Dp.Hairline,
-                color = MaterialTheme.colorScheme.secondary
+                color = colorResource(R.color.secondary)
             ),
             onClick = {
                 choosePhotoHandler()
@@ -290,7 +291,7 @@ fun ProfilePicture(
             Text(
                 text = stringResource(R.string.choose_profile_picture),
                 style = MaterialTheme.typography.displayMedium,
-                color = MaterialTheme.colorScheme.secondary
+                color = colorResource(R.color.accent)
             )
         }
     }
@@ -314,7 +315,7 @@ fun UserNameInput(
             Text(
                 text = stringResource(R.string.username_label),
                 style = MaterialTheme.typography.displaySmall,
-                color = MaterialTheme.colorScheme.secondary
+                color = colorResource(R.color.accent)
             )
         },
         shape = RoundedCornerShape(20.dp),

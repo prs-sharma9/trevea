@@ -40,12 +40,12 @@ fun StatsItem (
         Text(
             text = title,
             style = MaterialTheme.typography.displayMedium,
-            color = MaterialTheme.colorScheme.secondary
+            color = colorResource(R.color.accent)
         )
         Text(
             text = value,
             style = MaterialTheme.typography.displayMedium,
-            color = MaterialTheme.colorScheme.secondary
+            color = colorResource(R.color.accent)
         )
 
     }
@@ -65,7 +65,7 @@ fun UserStats(
             .clip(RoundedCornerShape(20.dp))
             .border(width = Dp.Hairline, color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(20.dp))
             .background(
-                color = colorResource(R.color.light_bg)
+                color = colorResource(R.color.secondary)
             ),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -76,7 +76,7 @@ fun UserStats(
             modifier = Modifier
                 .fillMaxWidth(),
             style = MaterialTheme.typography.displayMedium,
-            color = MaterialTheme.colorScheme.secondary
+            color = colorResource(R.color.accent)
         )
 
         Spacer(modifier = Modifier.height(20.dp))

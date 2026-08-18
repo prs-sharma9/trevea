@@ -13,6 +13,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
@@ -45,7 +46,7 @@ fun TopAppBar(
                     Icon(
                         imageVector = Icons.Default.ArrowBackIosNew,
                         contentDescription = stringResource(R.string.back_icon_description),
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = colorResource(R.color.secondary)
                     )
                 }
             }
@@ -66,6 +67,6 @@ fun StringTitle(
     Text(
         text = titleTxt.capitalize(locale = Locale.current),
         style = MaterialTheme.typography.titleLarge,
-        color = MaterialTheme.colorScheme.primary
+        color = colorResource(R.color.secondary)
     )
 }

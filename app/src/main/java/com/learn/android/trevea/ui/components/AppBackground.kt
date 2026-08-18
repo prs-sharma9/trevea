@@ -7,6 +7,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.colorResource
+import com.learn.android.trevea.R
 
 @Composable
 fun AppBackground(
@@ -19,8 +21,8 @@ fun AppBackground(
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        MaterialTheme.colorScheme.primaryContainer,
-                        MaterialTheme.colorScheme.secondaryContainer
+                        colorResource(R.color.primary),
+                        colorResource(R.color.accent)
                     )
                 )
             )

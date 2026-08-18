@@ -35,9 +35,9 @@ fun Loading(
             CircularProgressIndicator(
                 modifier = Modifier
                     .size(150.dp),
-                color = colorResource(R.color.loading_bar),
+                color = colorResource(R.color.secondary),
                 strokeWidth = 20.dp,
-                trackColor = colorResource(R.color.loading_bar_trail),
+//                trackColor = colorResource(R.color.loading_bar_trail),
                 gapSize = 20.dp
             )
 
@@ -46,7 +46,7 @@ fun Loading(
             Text(
                 text = stringResource(R.string.loading),
                 style = MaterialTheme.typography.displayMedium,
-                color = MaterialTheme.colorScheme.secondary
+                color = colorResource(R.color.secondary)
             )
         }
     }

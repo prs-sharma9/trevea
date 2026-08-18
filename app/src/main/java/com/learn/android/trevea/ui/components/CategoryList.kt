@@ -19,8 +19,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.learn.android.trevea.R
 import com.learn.android.trevea.data.model.Category
 
 @Composable
@@ -73,7 +75,7 @@ fun CategoryListItem(
         elevation = CardDefaults.cardElevation(10.dp),
         shape = RoundedCornerShape(15.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = colorResource(R.color.secondary)
         ),
         onClick = {
             onClick()
@@ -89,7 +91,7 @@ fun CategoryListItem(
                 textAlign = TextAlign.Start,
                 text = category.categoryName,
                 style = MaterialTheme.typography.displaySmall,
-                color = MaterialTheme.colorScheme.secondary
+                color = colorResource(R.color.accent)
             )
         }
     }

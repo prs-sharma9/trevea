@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -84,7 +85,7 @@ fun HomeScreen(
                                     navController.navigate("register")
                                 }
                             )
-                            .border(1.dp, MaterialTheme.colorScheme.primary)
+                            .border(1.dp, colorResource(R.color.secondary))
                     )
                 } else {
                     IconActionButton(
@@ -118,7 +119,7 @@ fun HomeScreen(
                     textAlign = TextAlign.Center,
                     text = stringResource(R.string.welcome),
                     style = MaterialTheme.typography.displayLarge,
-                    color = MaterialTheme.colorScheme.secondary
+                    color = colorResource(R.color.accent)
                 )
                 Text(
                     modifier = Modifier
@@ -126,7 +127,7 @@ fun HomeScreen(
                     textAlign = TextAlign.Center,
                     text = profileUiState.value.name,
                     style = MaterialTheme.typography.displayLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    color = colorResource(R.color.secondary)
                 )
             }
             TextActionButton (

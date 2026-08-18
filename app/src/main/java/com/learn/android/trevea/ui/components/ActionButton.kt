@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.learn.android.trevea.R
@@ -43,7 +44,7 @@ fun IconActionButton(
         Icon(
             imageVector = icon,
             contentDescription = stringResource(R.string.account_icon_description),
-            tint = MaterialTheme.colorScheme.primary,
+            tint = colorResource(R.color.secondary),
             modifier = Modifier
                 .width(50.dp)
                 .height(50.dp)
@@ -78,8 +79,8 @@ fun TextActionButton(
                 pressedElevation = 2.dp
             ),
             colors = ButtonDefaults.textButtonColors(
-                containerColor = MaterialTheme.colorScheme.inversePrimary,
-                contentColor = MaterialTheme.colorScheme.primary
+                containerColor = colorResource(R.color.secondary),
+                contentColor = colorResource(R.color.accent)
             )
         ) {
             Text(
