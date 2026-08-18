@@ -33,6 +33,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -321,6 +322,14 @@ fun UserNameInput(
         shape = RoundedCornerShape(20.dp),
         singleLine = true,
         keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions
+        keyboardActions = keyboardActions,
+        colors = TextFieldDefaults.colors().copy(
+            focusedTextColor = colorResource(R.color.accent),
+            unfocusedTextColor = colorResource(R.color.accent),
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            cursorColor = colorResource(R.color.accent),
+
+        )
     )
 }
